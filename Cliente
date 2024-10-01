@@ -1,0 +1,21 @@
+public class Cliente extends Pessoa{
+
+    private int codigo;
+
+    public Cliente(String cpf, String nome, int tipo, Contato contato, int codigo){
+        super(cpf, nome, tipo, contato);
+        this.codigo = codigo;
+    }
+
+    public void setCodigo(int codigo){
+        this.codigo = codigo;
+    }
+
+    public int getCodigo(){
+        return codigo;
+    }
+    @Override
+    public String mostraDados() {
+        return "Código = " + getCodigo() + "| CPF = " + getCpf() + " | nome = "+ getNome() + " | Tipo = cliente" + " | celular = " + getContato().getCelular()+ "| e-mail = " + getContato().getEmail();
+    }
+}
