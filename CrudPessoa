@@ -1,0 +1,126 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CrudPessoa implements Crud{
+    private static Scanner leitor = new Scanner(System.in);
+    private static int idPessoa;
+
+    @Override
+    public void cadastrar(ArrayList<Pessoa> lista) {
+        Pessoa pessoa = null;
+        String msg = "Digite [1 - Para cliente | 2 - Para funcionario]";
+        int opcao = Util.validarInt(msg);
+        if(opcao != 1 && opcao != 2) {
+            System.out.println("Opção invalida");
+        }else {
+            System.out.println("Cpf: ");
+            String cpf = leitor.next();
+            Util.validarCpf(cpf);
+            Util.clearBuffer(leitor);
+            System.out.println("Nome: ");
+            String nome = leitor.nextLine();
+            System.out.println("Celular: ");
+            String celular = leitor.next();
+            System.out.println("E-mail: ");
+            String email = leitor.next();
+            Util.validarEmail(email);
+            Contato contato = new Contato(celular, email);
+        if(opcao == 1){
+            msg = "Codigo: ";
+            int codigo = Util.validarInt(msg);
+            pessoa =  new Cliente(cpf, nome, 1,  contato, codigo);
+        } else if (opcao == 2) {
+            System.out.println("Matricula: ");
+            String matricula = leitor.next();
+            msg = "Salario: ";
+            double salario = Util.validarDouble(msg);
+            pessoa = new Funcionario(cpf, nome, 2, contato,matricula, salario);
+        }
+
+        }
+        lista.add(pessoa);
+    }
+
+    @Override
+    public void mostrar(ArrayList<Pessoa> lista) {
+        for(Pessoa pesssoa: lista){
+            System.out.println(pesssoa.mostraDados());
+        }
+    }
+
+    @Override
+    public Pessoa pesquisar(ArrayList<Pessoa> lista) {
+        Pessoa pessoa= null;
+        System.out.println("informe o cpf: ");
+        String busca = leitor.next();
+        Util.validarCpf(busca);
+        int i = 0;
+        boolean acha = false;
+        while (acha == false && i < lista.size()){
+            if(lista.get(i).getCpf().equals(busca)){
+                idPessoa = i;
+                acha = true;
+            }else {
+                acha = false;
+                i++;
+            }
+        }
+        if(acha == true){
+            System.out.println(lista.get(idPessoa).mostraDados());
+            pessoa = lista.get(idPessoa);
+        }else {
+            System.out.println("Cpf não encontrado ");
+        }
+        return pessoa;
+    }
+
+    @Override
+    public void exluir(ArrayList<Pessoa> lista) {
+        Pessoa pessoa = pesquisar(lista);
+        if(pessoa !=null){
+            String msg = "Deseja realmente excluir essa pessoa? [1- sim, 2- não]";
+            int opcao = Util.validarInt(msg);
+            if(opcao == 1){
+                lista.remove(pessoa);
+
+            }else if(opcao == 2) {
+                System.out.println("Tudo bem por aqui!");
+
+            }else {
+                System.out.println("Opcao invalida");
+            }
+        }
+    }
+
+    @Override
+    public void editar(ArrayList<Pessoa> lista) {
+        Pessoa pessoa = pesquisar(lista);
+        if(pessoa != null){
+            System.out.println("Cpf não pode ser alterado.");
+            Util.clearBuffer(leitor);
+            System.out.println("Digite novo nome: ");
+            String nome = leitor.nextLine();
+            System.out.println("Digite novo celular: ");
+            String celular = leitor.next();
+            System.out.println("Digite novo e-mail: ");
+            String email = leitor.next();
+            Util.validarEmail(email);
+            Contato contato = new Contato(celular, email);
+            if(pessoa.getTipo() == 1){
+               String msg = "Novo código: ";
+               int codigo = Util.validarInt(msg);
+               pessoa = new Cliente(pessoa.getCpf(), pessoa.getNome(), 1, contato, codigo);
+
+
+            } else if (pessoa.getTipo() == 2) {
+                System.out.println("Nova matricula: ");
+                String matricula = leitor.next();
+                String mensagem = "Novo Salario: ";
+                double salario = Util.validarDouble(mensagem);
+                pessoa = new Funcionario(pessoa.getCpf(), pessoa.getNome(), 2, contato, matricula, salario);
+            }
+            lista.set(idPessoa, pessoa);
+        }
+
+    }
+}
