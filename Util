@@ -1,0 +1,78 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.regex.*;
+
+public class Util {
+    private static Scanner leitor = new Scanner(System.in);
+
+    public static void clearBuffer(Scanner leitor){
+        if(leitor.hasNextLine()){
+            leitor.nextLine();
+        }
+
+    }
+
+    public static double validarDouble(String msg){
+        boolean continueLop = true;
+        double opcao = 0.0;
+        do {
+            try{
+                System.out.println(msg);
+                opcao = leitor.nextDouble();
+                continueLop = false;
+            }catch (InputMismatchException erro){
+                System.err.println("Forneça apenas numeros");
+                Util.clearBuffer(leitor);
+            }
+        }while (continueLop!=false);
+        return opcao;
+    }
+    public static int validarInt(String msg){
+        boolean continueLoop = true;
+        int opcao = 0;
+
+        do {
+            try {
+                System.out.println(msg);
+                opcao = leitor.nextInt();
+                continueLoop = false;
+            }catch (InputMismatchException erro){
+                System.err.println("Forcena apenas números");
+                Util.clearBuffer(leitor);
+            }
+
+        }while (continueLoop !=false);
+        return opcao;
+    }
+
+    public static void validarCpf(String cpf){
+            boolean continueLoop = true;
+            do {
+              if(cpf.replaceAll("[^0-9]", "").length() == 11){
+                    continueLoop = false;
+                }else {
+                  System.out.println("Cpf invalido! digite novamente.");
+                  cpf = leitor.next();
+              }
+            }while(continueLoop != false);
+    }
+
+    public static void validarEmail(String email){
+        boolean continueLoop = true;
+        do {
+            if(email !=null && email.length() > 0){
+                String expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+                Pattern pattern = Pattern.compile(expression,Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(email);
+                if(matcher.matches()){
+                    continueLoop = false;
+                }
+            }else {
+                System.out.println("E-mail invalido! Digite novamente: ");
+                email = leitor.next();
+                continueLoop = true;
+            }
+        }while(continueLoop !=false);
+
+    }
+}
