@@ -1,0 +1,9 @@
+import java.util.ArrayList;
+
+public interface Crud {
+    void cadastrar(ArrayList<Pessoa> lista);
+    void mostrar(ArrayList<Pessoa> lista);
+    Pessoa  pesquisar(ArrayList<Pessoa> lista);
+    void exluir(ArrayList<Pessoa> lista);
+    void editar(ArrayList<Pessoa> lista);
+}
