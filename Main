@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    private static Scanner leitor = new Scanner(System.in);
+    private static ArrayList<Pessoa> lista = new ArrayList<Pessoa>();
+    private static CrudPessoa aplicacao = new CrudPessoa();
+    private static int opcao;
+    public static void main(String[] args) {
+        boolean continueLoop = true;
+        do{
+            do {
+                    try{
+                        System.out.println("Escolha uma das opções: ");
+                        System.out.println("1 - Cadastrar pessoa");
+                        System.out.println("2 - Editar pessoa");
+                        System.out.println("3 - Pesquisar pessoa");
+                        System.out.println("4 - Excluir pessoa");
+                        System.out.println("5 - Mostrar todas as pessoas");
+                        System.out.println("0 - Para sair");
+                        opcao = leitor.nextInt();
+                        continueLoop = false;
+                    }catch (InputMismatchException erro){
+                        System.err.println("Forneça apenas numeros");
+                        Util.clearBuffer(leitor);
+                    }
+
+            }while (continueLoop != false);
+            switch (opcao){
+                case 1:
+                    aplicacao.cadastrar(lista);
+                    break;
+                case 2:
+                    aplicacao.editar(lista);
+                    break;
+                case 3:
+                    aplicacao.pesquisar(lista);
+                    break;
+                case 4:
+                    aplicacao.exluir(lista);
+                    break;
+                case 5:
+                    aplicacao.mostrar(lista);
+                    break;
+            }
+        }while (opcao != 0);
+    }
+    
+}
